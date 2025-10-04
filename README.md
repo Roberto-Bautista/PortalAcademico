@@ -12,9 +12,10 @@ Portal web interno de una universidad que permite:
 
 
 👥 Usuarios de Prueba
-ROL		      | EMAIL			                  	 | CONTRASEÑA
-Coordinador	| coordinador@universidad.edu	   | Coord123!
-Estudiante	| (crear desde Register)	       | (crear desde Register)
+| ROL		      | EMAIL			                  	 | CONTRASEÑA              |
+|-------------|--------------------------------|-------------------------|
+| Coordinador	| coordinador@universidad.edu	   | Coord123!               |
+| Estudiante	| (crear desde Register)	       | (crear desde Register)  |
 
 
 ## 🛠️ Stack Tecnológico
