@@ -1,0 +1,50 @@
+@model PortalAcademico.Models.Curso
+
+@{
+    ViewData["Title"] = "Confirmar Inscripción";
+}
+
+<h1>Confirmar Inscripción</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Nombre</h5>
+        <h6 class="card-subtitle mb-3 text-muted">@Model.Codigo</h6>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p><strong>Créditos:</strong> @Model.Creditos</p>
+                <p><strong>Horario:</strong> @Model.HorarioInicio.ToString(@"hh\:mm") - @Model.HorarioFin.ToString(@"hh\:mm")</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Cupo disponible:</strong> 
+                    @(Model.CupoMaximo - Model.Matriculas.Count(m => m.Estado != EstadoMatricula.Cancelada)) / @Model.CupoMaximo
+                </p>
+            </div>
+        </div>
+        
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            <strong>Importante:</strong> Al confirmar tu inscripción, se creará una matrícula en estado 
+            <strong>Pendiente</strong> que deberá ser aprobada por el coordinador académico.
+        </div>
+        
+        <form asp-action="Inscribir" method="post">
+            <input type="hidden" name="cursoId" value="@Model.Id" />
+            
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="confirmacion" 
+                       name="confirmacion" value="true" required>
+                <label class="form-check-label" for="confirmacion">
+                    Confirmo que deseo inscribirme en este curso y que he verificado el horario
+                </label>
+            </div>
+            
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success">Confirmar Inscripción</button>
+                <a asp-controller="Cursos" asp-action="Detalle" asp-route-id="@Model.Id" 
+                   class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
