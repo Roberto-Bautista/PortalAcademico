@@ -1,0 +1,59 @@
+# ==========================================
+# .NET / ASP.NET Core ignore list
+# ==========================================
+
+# Build results
+bin/
+obj/
+out/
+publish/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+*.dbmdl
+*.db
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.swp
+
+# ASP.NET Identity / EF Core
+*.mdf
+*.ldf
+Migrations/
+app.db
+app.db-shm
+app.db-wal
+*.sqlite
+*.sqlite3
+
+# Environment files
+.env
+.env.*
+appsettings.Development.json
+appsettings.Local.json
+
+# Generated files / temporary
+launchSettings.json
+Thumbs.db
+Desktop.ini
+
+# Node/npm (por si tienes frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+
+# OS-specific
+.DS_Store
