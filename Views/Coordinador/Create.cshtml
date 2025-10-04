@@ -1,0 +1,30 @@
+@model PortalAcademico.Models.Curso
+
+@{
+    ViewData["Title"] = "Nuevo Curso";
+}
+
+<h2>Registrar Nuevo Curso</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Código</label>
+        <input asp-for="Codigo" class="form-control" />
+        <span asp-validation-for="Codigo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Créditos</label>
+        <input asp-for="Creditos" class="form-control" type="number" />
+        <span asp-validation-for="Creditos" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
