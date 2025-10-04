@@ -1,0 +1,72 @@
+@model IEnumerable<PortalAcademico.Models.Matricula>
+
+@{
+    ViewData["Title"] = "Gestión de Matrículas";
+}
+
+<h2 class="mb-4">Gestión de Matrículas</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Curso</th>
+            <th>Usuario</th>
+            <th>Fecha Registro</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Curso?.Nombre</td>
+                <td>@item.UsuarioId</td>
+                <td>@item.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    @if (item.Estado == PortalAcademico.Models.EstadoMatricula.Pendiente)
+                    {
+                        <span class="badge bg-warning text-dark">Pendiente</span>
+                    }
+                    else if (item.Estado == PortalAcademico.Models.EstadoMatricula.Confirmada)
+                    {
+                        <span class="badge bg-success">Confirmada</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Cancelada</span>
+                    }
+                </td>
+                <td>
+                    @if (item.Estado == PortalAcademico.Models.EstadoMatricula.Pendiente)
+                    {
+                        <form asp-action="ConfirmarMatricula" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button class="btn btn-sm btn-success">Confirmar</button>
+                        </form>
+                        <form asp-action="CancelarMatricula" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button class="btn btn-sm btn-danger">Cancelar</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Sin acciones</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
