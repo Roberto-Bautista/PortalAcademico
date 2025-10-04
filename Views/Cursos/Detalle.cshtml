@@ -1,0 +1,42 @@
+@model PortalAcademico.Models.Curso
+
+@{
+    ViewData["Title"] = Model.Nombre;
+}
+
+<h1>@Model.Nombre</h1>
+<h4 class="text-muted">@Model.Codigo</h4>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Créditos:</strong> @Model.Creditos</p>
+                <p><strong>Cupo máximo:</strong> @Model.CupoMaximo</p>
+                <p><strong>Matriculados:</strong> @Model.Matriculas.Count(m => m.Estado != EstadoMatricula.Cancelada)</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Horario:</strong> @Model.HorarioInicio.ToString(@"hh\:mm") - @Model.HorarioFin.ToString(@"hh\:mm")</p>
+                <p><strong>Estado:</strong> @(Model.Activo ? "Activo" : "Inactivo")</p>
+            </div>
+        </div>
+        
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <div class="mt-3">
+                <a asp-controller="Matriculas" asp-action="Inscribir" asp-route-cursoId="@Model.Id" 
+                   class="btn btn-success">Inscribirse</a>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning mt-3">
+                Debes <a asp-area="Identity" asp-page="/Account/Login">iniciar sesión</a> para inscribirte.
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Catalogo" class="btn btn-secondary">Volver al catálogo</a>
+</div>
