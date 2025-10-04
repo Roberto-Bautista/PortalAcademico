@@ -1,5 +1,9 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using PortalAcademico.Helpers
+@using PortalAcademico.Models
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,12 +12,15 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PortalAcademico.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PortalAcademico</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-mortarboard-fill"></i> Portal Académico
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,26 +28,48 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Cursos" asp-action="Catalogo">Catálogo</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house"></i> Inicio
+                            </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Cursos" asp-action="Catalogo">
+                                <i class="bi bi-book"></i> Catálogo
+                            </a>
+                        </li>
+
+                        @* ============== MOSTRAR ÚLTIMO CURSO VISITADO ============== *@
+                        @{
+                            var ultimoCurso = HttpContextAccessor.HttpContext?.Session.GetObject<UltimoCursoSession>("UltimoCurso");
+                            if (ultimoCurso != null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-primary" asp-controller="Cursos" asp-action="Detalle" 
+                                       asp-route-id="@ultimoCurso.Id" title="Regresar al último curso visitado">
+                                        <i class="bi bi-arrow-return-left"></i> Volver a "@ultimoCurso.Nombre"
+                                    </a>
+                                </li>
+                            }
+                        }
+
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Matriculas" asp-action="MisMatriculas">Mis Matrículas</a>
+                                <a class="nav-link text-dark" asp-controller="Matriculas" asp-action="MisMatriculas">
+                                    <i class="bi bi-journal-text"></i> Mis Matrículas
+                                </a>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        
                     </ul>
-                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav">
+                        <partial name="_LoginPartial" />
+                    </ul>
                 </div>
             </div>
         </nav>
     </header>
+    
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -48,10 +77,26 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - PortalAcademico - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container text-center">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    &copy; 2025 - Portal Académico - Universidad
+                </div>
+                <div>
+                    @if (ViewBag.FromCache == true)
+                    {
+                        <span class="badge bg-success">
+                            <i class="bi bi-lightning-fill"></i> Datos desde Cache
+                        </span>
+                    }
+                </div>
+                <div>
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+            </div>
         </div>
     </footer>
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
